@@ -1,0 +1,21 @@
+@import "tailwindcss" source(none);
+@plugin "daisyui" {
+	themes: all;
+}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *,[data-theme=dim], [data-theme=dim] *,
+[data-theme=sunset], [data-theme=sunset] *,
+[data-theme=night], [data-theme=night] *,
+[data-theme=forest], [data-theme=forest] *));
+@plugin "@iconify/tailwind4";
+@source "../public/*.{html,js}";
+@source "../src/*.{css}";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+* {
+	font-family: "Poppins", sans-serif;
+}
+.btn-container > a.kofi-button {
+	@apply !btn !btn-primary !my-1;
+}
+div.btn-container > a > span.kofitext {
+    @apply !text-(--btn-fg);
+}

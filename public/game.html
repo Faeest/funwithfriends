@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Game Page</title>
+		<link rel="stylesheet" href="/css/style.css" />
+	</head>
+	<body>
+		<h1>Game Page Content for <span id="gameTypeDisplay"></span> in Room <span id="roomIdDisplay"></span></h1>
+		<p>This page would load the specific UI for the selected game type.</p>
+		<p>All game interactions and room updates will be handled here, similar to room.html.</p>
+		<a href="/">Back to Home</a>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			const pathParts = window.location.pathname.split("/");
+			const gameType = pathParts[2];
+			const roomId = pathParts[3];
+
+			document.getElementById("gameTypeDisplay").textContent = gameType;
+			document.getElementById("roomIdDisplay").textContent = roomId;
+
+			const socket = io();
+
+			socket.on("connect", () => {
+				socket.emit("track_view", { page: "game" });
+				console.log("Connected on game page. Socket ID:", socket.id);
+				// Client would typically re-confirm its presence in the room or join if necessary
+				// For this example, assuming the user was redirected here after successful join/create
+				// and the server already associated this socket with the room.
+				// You might emit a 'get_room_info_request' here too.
+			});
+
+			// Add listeners for game_state_update, room_update, player_list, chat, etc.
+			// as in room.html, but potentially tailored to the game.
+		</script>
+	</body>
+</html>
