@@ -7,214 +7,278 @@
 		<link rel="stylesheet" href="/css/style.css" />
 	</head>
 	<body>
-		<h1>Game Room: <span id="roomIdDisplay"></span></h1>
-		<p>Game Type: <span id="gameTypeDisplay"></span></p>
-		<p>Status: <span id="roomStatusDisplay"></span></p>
+		<div class="drawer">
+			<input checked="true" id="my-drawer" type="checkbox" class="drawer-toggle" />
+			<div class="drawer-content">
+				<label for="my-drawer" class="btn btn-primary drawer-button">Open drawer</label>
+			</div>
+			<div class="drawer-side">
+				<label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+				<div class="menu flex-nowrap gap-5 bg-base-200 text-base-content min-h-full max-h-full w-80 p-4">
+					<div class="flex flex-col overflow-y-auto">
+						<div class="w-full grid grid-cols-2 py-5">
+							<h1>Game Room:</h1>
+							<span id="roomIdDisplay" class="text-cyan-600 dark:text-cyan-400 underline"></span>
+						</div>
+						<div class="w-full grid grid-cols-2 py-5">
+							<p>Game Type:</p>
+							<span id="gameTypeDisplay"></span>
+						</div>
+						<div class="w-full grid grid-cols-2 py-5">
+							<p>Status:</p>
+							<span id="roomStatusDisplay"></span>
+						</div>
 
-		<h2>Players:</h2>
-		<ul id="playerList"></ul>
-
-		<div id="hostControls" style="display: none">
-			<button id="startGameButton">Start Game</button>
+						<div class="w-full flex flex-col py-5 gap-5">
+							<h2>Players:</h2>
+							<ul id="playerList" class="grid grid-cols-2 gap-2">
+								<li class="list-row">TEST</li>
+								<li class="list-row">TEST</li>
+								<li class="list-row">TEST</li>
+								<li class="list-row">TEST</li>
+							</ul>
+						</div>
+					</div>
+					<div id="hostControls" class="py-3" style="display: none">
+						<button class="btn w-full btn-accent" id="startGameButton">Start Game</button>
+					</div>
+					<div class="flex flex-col grow justify-end">
+						<h2>Chat:</h2>
+						<div class="overflow-y-auto border border-b-0 rounded-t-sm" id="chatMessages" style="height: 150px; padding: 5px"></div>
+						<div class="join">
+							<input class="input rounded-t-none border-base-content !outline-0 focus:bg-base-300 rounded-bl-sm" type="text" id="chatInput" placeholder="Type a message..." />
+							<button class="btn bg-base-content/5 text-base-content border-base-content border-l-0 rounded-br-sm" id="sendChatMessageButton">Send</button>
+						</div>
+						<div class="join w-full grid grid-cols-2 overflow-hidden">
+							<button class="btn mt-3 btn-error rounded-l-sm border-none" id="leaveRoomButton">Leave Room</button>
+							<label for="my-drawer" class="btn btn-primary mt-3 rounded-r-sm border-none">Close</label>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-
-		<h2>Chat:</h2>
-		<div id="chatMessages" style="height: 150px; overflow-y: scroll; border: 1px solid #ccc; padding: 5px"></div>
-		<input type="text" id="chatInput" placeholder="Type a message..." />
-		<button id="sendChatMessageButton">Send</button>
-
-		<div id="gameArea">
-			<!-- Game specific content will go here -->
-			<p>Waiting for game to start...</p>
+		<div class="flex w-full min-h-full">
+			<div id="gameArea">
+				<p>Waiting for game to start...</p>
+			</div>
 		</div>
-
-		<button id="leaveRoomButton">Leave Room</button>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-			const pathParts = window.location.pathname.split("/");
-			const gameType = pathParts[2]; // Assuming URL is /game/:gameType/:roomId
-			const roomId = pathParts[3];
+			const main = () => {
+				const pathParts = window.location.pathname.split("/");
+				const gameType = pathParts[2]; // Assuming URL is /game/:gameType/:roomId
+				const roomId = pathParts[3];
 
-			document.getElementById("roomIdDisplay").textContent = roomId;
-			document.getElementById("gameTypeDisplay").textContent = gameType;
+				document.getElementById("roomIdDisplay").textContent = roomId;
+				document.getElementById("gameTypeDisplay").textContent = gameType;
 
-			const socket = io(); // Connects and will be associated with this room by server logic
+				const socket = io(); // Connects and will be associated with this room by server logic
 
-			const playerList = document.getElementById("playerList");
-			const roomStatusDisplay = document.getElementById("roomStatusDisplay");
-			const hostControls = document.getElementById("hostControls");
-			const startGameButton = document.getElementById("startGameButton");
-			const gameArea = document.getElementById("gameArea");
-			const leaveRoomButton = document.getElementById("leaveRoomButton");
-			const chatMessages = document.getElementById("chatMessages");
-			const chatInput = document.getElementById("chatInput");
-			const sendChatMessageButton = document.getElementById("sendChatMessageButton");
+				const playerList = document.getElementById("playerList");
+				const roomStatusDisplay = document.getElementById("roomStatusDisplay");
+				const hostControls = document.getElementById("hostControls");
+				const startGameButton = document.getElementById("startGameButton");
+				const gameArea = document.getElementById("gameArea");
+				const leaveRoomButton = document.getElementById("leaveRoomButton");
+				const chatMessages = document.getElementById("chatMessages");
+				const chatInput = document.getElementById("chatInput");
+				const sendChatMessageButton = document.getElementById("sendChatMessageButton");
+				socket.on("connect", () => {
+					console.log("Connected to room page socket, my ID:", socket.id);
+					socket.emit("track_view", { page: "room" });
+					const reestablishRoomId = sessionStorage.getItem("reestablishRoomId");
+					const reestablishUsername = sessionStorage.getItem("reestablishUsername");
+					const reestablishGameType = sessionStorage.getItem("reestablishGameType");
+					const isHostCreator = sessionStorage.getItem("isReestablishingHost") === "true";
+					if (reestablishRoomId && reestablishUsername && reestablishGameType && window.location.pathname.includes(reestablishRoomId)) {
+						console.log(`Re-establishing connection for user ${reestablishUsername} in room ${reestablishRoomId}`);
+						socket.emit("reestablish_in_room", {
+							roomId: reestablishRoomId,
+							username: reestablishUsername,
+							gameType: reestablishGameType, // Needed if room needs to be re-created as a fallback
+							isHostCreator: isHostCreator,
+						});
 
-			// Client needs to inform the server it's trying to connect to this specific room context
-			// This is often handled implicitly by the server if the client was redirected after join/create
-			// Or, explicitly:
-			socket.on("connect", () => {
-				console.log("Connected to room page socket, my ID:", socket.id);
-				socket.emit("track_view", { page: "room" });
-				const reestablishRoomId = sessionStorage.getItem("reestablishRoomId");
-				const reestablishUsername = sessionStorage.getItem("reestablishUsername");
-				const reestablishGameType = sessionStorage.getItem("reestablishGameType");
-				const isHostCreator = sessionStorage.getItem("isReestablishingHost") === "true";
-
-				// Check if we need to re-establish connection after a redirect
-				// Also ensure the current URL's roomId matches the one from sessionStorage
-				if (reestablishRoomId && reestablishUsername && reestablishGameType && window.location.pathname.includes(reestablishRoomId)) {
-					console.log(`Re-establishing connection for user ${reestablishUsername} in room ${reestablishRoomId}`);
-					socket.emit("reestablish_in_room", {
-						roomId: reestablishRoomId,
-						username: reestablishUsername,
-						gameType: reestablishGameType, // Needed if room needs to be re-created as a fallback
-						isHostCreator: isHostCreator,
-					});
-
-					// Clear sessionStorage items after use
-					sessionStorage.removeItem("reestablishRoomId");
-					sessionStorage.removeItem("reestablishUsername");
-					sessionStorage.removeItem("reestablishGameType");
-					sessionStorage.removeItem("isReestablishingHost");
-				} else {
-					// Normal scenario: user directly navigated or refreshed, just get room info
-					socket.emit("get_room_info_request", { roomId });
-				}
-			});
-
-			socket.on("room_details", (room) => {
-				if (!room) {
-					alert("Room not found or an error occurred.");
-					window.location.href = "/";
-					return;
-				}
-				console.log("Room details received:", room);
-				roomStatusDisplay.textContent = room.status;
-
-				playerList.innerHTML = "";
-				room.players.forEach((player) => {
-					const li = document.createElement("li");
-					li.textContent = `${player.username} ${player.socketId === room.host.socketId ? "(Host)" : ""}`;
-					playerList.appendChild(li);
+						sessionStorage.removeItem("reestablishRoomId");
+						sessionStorage.removeItem("reestablishUsername");
+						sessionStorage.removeItem("reestablishGameType");
+						sessionStorage.removeItem("isReestablishingHost");
+					} else {
+						socket.emit("get_room_info_request", { roomId });
+					}
 				});
 
-				if (room.host.socketId === socket.id) {
-					hostControls.style.display = "block";
-					if (room.status === "waiting" || room.status === "ready") {
-						startGameButton.disabled = false;
+				socket.on("room_details", (room) => {
+					if (!room) {
+						alert("Room not found or an error occurred.");
+						window.location.href = "/";
+						return;
+					}
+					console.log("Room details received:", room);
+					roomStatusDisplay.textContent = room.status;
+
+					playerList.innerHTML = "";
+					room.players.forEach((player) => {
+						const li = document.createElement("li");
+						li.className = "list-row";
+						li.textContent = `${player.username} ${player.socketId === room.host.socketId ? "(Host)" : ""}`;
+						playerList.appendChild(li);
+					});
+
+					if (room.host.socketId === socket.id) {
+						hostControls.style.display = "block";
+						if (room.status === "waiting" || room.status === "ready") {
+							startGameButton.disabled = false;
+						} else {
+							startGameButton.disabled = true;
+						}
 					} else {
-						startGameButton.disabled = true;
+						hostControls.style.display = "none";
+					}
+
+					if (room.status === "in-progress") {
+						gameArea.innerHTML = `<p>Game is in progress! (Game Type: ${room.gameType})</p>`;
+						// Here you would initialize your game-specific UI based on room.gameState
+					} else if (room.status === "finished") {
+						gameArea.innerHTML = `<p>Game finished!</p>`;
+					} else {
+						gameArea.innerHTML = `<p>Waiting for game to start... Min ${room.minPlayers} players needed.</p>`;
+					}
+				});
+
+				socket.on("room_update", (room) => {
+					// Generic room update
+					console.log("Room update received:", room);
+					if (room.id === roomId) {
+						// Ensure update is for this room
+						socket.emit("get_room_info_request", { roomId }); // Re-fetch details
+					}
+				});
+
+				socket.on("user_joined", (data) => {
+					console.log("User joined:", data);
+					// Append to player list or re-fetch
+					socket.emit("get_room_info_request", { roomId });
+				});
+
+				socket.on("user_left", (data) => {
+					console.log("User left:", data);
+					// Remove from player list or re-fetch
+					socket.emit("get_room_info_request", { roomId });
+				});
+
+				socket.on("host_changed", (data) => {
+					alert(`Host changed to: ${data.newHostUsername}`);
+					socket.emit("get_room_info_request", { roomId }); // Re-fetch to update UI
+				});
+
+				socket.on("game_started", (data) => {
+					if (data.roomId === roomId) {
+						alert("Game is starting!");
+						gameArea.innerHTML = `<p>Game started! (Game Type: ${gameType})</p><p>Initial game state: ${JSON.stringify(data.gameState)}</p>`;
+						// Initialize game UI based on data.gameState
+						socket.emit("get_room_info_request", { roomId }); // Re-fetch details
+					}
+				});
+
+				socket.on("game_state_update", (gameState) => {
+					console.log("Game state update:", gameState);
+					gameArea.innerHTML = `<p>Game ongoing... Current state: ${JSON.stringify(gameState)}</p>`;
+					// Update game UI
+				});
+
+				socket.on("game_ended", (data) => {
+					if (data.roomId === roomId) {
+						alert("Game has ended!");
+						socket.emit("get_room_info_request", { roomId }); // Re-fetch details
+					}
+				});
+
+				socket.on("player_username_changed", (data) => {
+					alert(`Player ${data.oldUsername} is now ${data.newUsername}.`);
+					socket.emit("get_room_info_request", { roomId }); // Refresh player list
+				});
+
+				startGameButton.addEventListener("click", () => {
+					socket.emit("start_game_request", { roomId });
+				});
+
+				leaveRoomButton.addEventListener("click", () => {
+					socket.emit("leave_room_request", { roomId });
+				});
+
+				socket.on("left_room_success", () => {
+					alert("You have left the room.");
+					window.location.href = "/";
+				});
+
+				sendChatMessageButton.addEventListener("click", () => {
+					const message = chatInput.value.trim();
+					if (message) {
+						socket.emit("chat_message_request", { roomId, message });
+						chatInput.value = "";
+					}
+				});
+				socket.on("new_chat_message", (data) => {
+					const messageElement = document.createElement("div");
+					messageElement.textContent = `[${new Date(data.timestamp).toLocaleTimeString()}] ${data.username}: ${data.message}`;
+					chatMessages.appendChild(messageElement);
+					chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+				});
+				socket.on("custom_error", (error) => {
+					console.error("Server error:", error);
+					alert(`Error: ${error.message}`);
+					if (error.redirectToHome) {
+						window.location.href = "/";
+					}
+				});
+				// Periodically request room info to keep client synced, or rely on specific update events
+				// setInterval(() => socket.emit('get_room_info_request', { roomId }), 5000);
+			};
+			main();
+		</script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const themeControllers = document.querySelectorAll(".theme-controller");
+				const savedTheme = localStorage.getItem("selectedTheme");
+				if (!savedTheme) {
+					const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+					document.documentElement.setAttribute("data-theme", systemTheme);
+					if (themeControllers) {
+						themeControllers.forEach((controller) => {
+							if (controller.value === systemTheme) {
+								controller.checked = true;
+							}
+						});
 					}
 				} else {
-					hostControls.style.display = "none";
+					document.documentElement.setAttribute("data-theme", savedTheme);
+					if (themeControllers) {
+						themeControllers.forEach((controller) => {
+							if (controller.value === savedTheme) {
+								controller.checked = true;
+							}
+						});
+					}
 				}
 
-				if (room.status === "in-progress") {
-					gameArea.innerHTML = `<p>Game is in progress! (Game Type: ${room.gameType})</p>`;
-					// Here you would initialize your game-specific UI based on room.gameState
-				} else if (room.status === "finished") {
-					gameArea.innerHTML = `<p>Game finished!</p>`;
-				} else {
-					gameArea.innerHTML = `<p>Waiting for game to start... Min ${room.minPlayers} players needed.</p>`;
+				if (themeControllers) {
+					themeControllers.forEach((controller) => {
+						controller.addEventListener("change", function () {
+							const selectedTheme = this.value;
+							if (selectedTheme == "default") {
+								const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+								document.documentElement.setAttribute("data-theme", systemTheme);
+								localStorage.removeItem("selectedTheme");
+							} else {
+								localStorage.setItem("selectedTheme", selectedTheme);
+								document.documentElement.setAttribute("data-theme", selectedTheme);
+							}
+						});
+					});
 				}
 			});
-
-			socket.on("room_update", (room) => {
-				// Generic room update
-				console.log("Room update received:", room);
-				if (room.id === roomId) {
-					// Ensure update is for this room
-					socket.emit("get_room_info_request", { roomId }); // Re-fetch details
-				}
-			});
-
-			socket.on("user_joined", (data) => {
-				console.log("User joined:", data);
-				// Append to player list or re-fetch
-				socket.emit("get_room_info_request", { roomId });
-			});
-
-			socket.on("user_left", (data) => {
-				console.log("User left:", data);
-				// Remove from player list or re-fetch
-				socket.emit("get_room_info_request", { roomId });
-			});
-
-			socket.on("host_changed", (data) => {
-				alert(`Host changed to: ${data.newHostUsername}`);
-				socket.emit("get_room_info_request", { roomId }); // Re-fetch to update UI
-			});
-
-			socket.on("game_started", (data) => {
-				if (data.roomId === roomId) {
-					alert("Game is starting!");
-					gameArea.innerHTML = `<p>Game started! (Game Type: ${gameType})</p><p>Initial game state: ${JSON.stringify(data.gameState)}</p>`;
-					// Initialize game UI based on data.gameState
-					socket.emit("get_room_info_request", { roomId }); // Re-fetch details
-				}
-			});
-
-			socket.on("game_state_update", (gameState) => {
-				console.log("Game state update:", gameState);
-				gameArea.innerHTML = `<p>Game ongoing... Current state: ${JSON.stringify(gameState)}</p>`;
-				// Update game UI
-			});
-
-			socket.on("game_ended", (data) => {
-				if (data.roomId === roomId) {
-					alert("Game has ended!");
-					// Update UI, perhaps show scores or a "play again" option
-					socket.emit("get_room_info_request", { roomId }); // Re-fetch details
-				}
-			});
-
-			socket.on("player_username_changed", (data) => {
-				alert(`Player ${data.oldUsername} is now ${data.newUsername}.`);
-				socket.emit("get_room_info_request", { roomId }); // Refresh player list
-			});
-
-			startGameButton.addEventListener("click", () => {
-				socket.emit("start_game_request", { roomId });
-			});
-
-			leaveRoomButton.addEventListener("click", () => {
-				socket.emit("leave_room_request", { roomId });
-				// Client should expect a confirmation or handle server-side cleanup
-			});
-
-			socket.on("left_room_success", () => {
-				alert("You have left the room.");
-				window.location.href = "/";
-			});
-
-			// Chat
-			sendChatMessageButton.addEventListener("click", () => {
-				const message = chatInput.value.trim();
-				if (message) {
-					socket.emit("chat_message_request", { roomId, message });
-					chatInput.value = "";
-				}
-			});
-
-			socket.on("new_chat_message", (data) => {
-				const messageElement = document.createElement("div");
-				messageElement.textContent = `[${new Date(data.timestamp).toLocaleTimeString()}] ${data.username}: ${data.message}`;
-				chatMessages.appendChild(messageElement);
-				chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
-			});
-
-			socket.on("custom_error", (error) => {
-				console.error("Server error:", error);
-				alert(`Error: ${error.message}`);
-				if (error.redirectToHome) {
-					window.location.href = "/";
-				}
-			});
-
-			// Periodically request room info to keep client synced, or rely on specific update events
-			// setInterval(() => socket.emit('get_room_info_request', { roomId }), 5000);
 		</script>
 	</body>
 </html>
