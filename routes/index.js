@@ -8,6 +8,9 @@ module.exports = function (roomManagerInstance) {
 	router.get("/", (req, res) => {
 		res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 	});
+	router.get("/socket.io/socket.io.js", (req, res) => {
+		res.sendFile(path.join(__dirname, "..", "public", "socket.io", "socket.io.js"));
+	});
 
 	// Game Room Routes (deprecated in favor of /game/:gameType/:roomId for clarity)
 	// If you still want /room/:roomId:
