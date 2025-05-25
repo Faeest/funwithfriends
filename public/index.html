@@ -141,22 +141,37 @@
 				</div>
 			</div>
 		</dialog>
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.all.min.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-			const swalErrorClasses = {
-				popup: `bg-base-100 text-base-content`,
-				title: `text-primary`,
-				icon: `text-primary`,
-				content: `text-base-content`,
+			const toastClasses = {
+				title: `!text-base-content`,
+				content: `!text-base-content !opacity-80`,
 				confirmButton: `btn btn-primary`,
+				denyButton: "btn btn-primary",
+				cancelButton: "btn btn-neutral",
 			};
-			Swal.fire({
-				title: "SweetAlert2 is working!",
-				icon: "success",
-				theme: "daisy",
-				customClass: swalErrorClasses,
+			const toastAlert = Swal.mixin({
+				toast: true,
+				position: "top-end",
+				timer: 3000,
+				timerProgressBar: true,
+				showConfirmButton: false,
+				customClass: toastClasses,
 				buttonsStyling: false,
+				didOpen: (toast) => {
+					toast.onmouseenter = Swal.stopTimer;
+					toast.onmouseleave = Swal.resumeTimer;
+				},
+			});
+			document.addEventListener("DOMContentLoaded", () => {
+				Swal.fire({
+					title: "SweetAlert2 is working!",
+					icon: "success",
+					customClass: toastClasses,
+					buttonsStyling: false,
+				});
 			});
 
 			const socket = io(); // Connect to the server
@@ -186,7 +201,6 @@
 			}
 
 			socket.on("available_rooms", (rooms) => {
-				console.log(rooms);
 				availableRoomsList.innerHTML = ""; // Clear existing list
 				if (rooms.length === 0) {
 					const li = document.createElement("li");
