@@ -177,7 +177,6 @@
 					if (data.roomId === roomId) {
 						alert("Game is starting!");
 						gameArea.innerHTML = `<p>Game started! (Game Type: ${gameType})</p><p>Initial game state: ${JSON.stringify(data.gameState)}</p>`;
-						// Initialize game UI based on data.gameState
 						socket.emit("get_room_info_request", { roomId }); // Re-fetch details
 					}
 				});
@@ -185,7 +184,6 @@
 				socket.on("game_state_update", (gameState) => {
 					console.log("Game state update:", gameState);
 					gameArea.innerHTML = `<p>Game ongoing... Current state: ${JSON.stringify(gameState)}</p>`;
-					// Update game UI
 				});
 
 				socket.on("game_ended", (data) => {

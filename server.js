@@ -38,7 +38,7 @@ require("./socket/socketManager")(io); // Pass the io instance
 
 // Catch-all for 404 Not Found (optional)
 app.use((req, res, next) => {
-	res.status(404).send("Sorry, can't find that!");
+	res.status(404).sendFile(path.join(__dirname, "public", "error", "404.html"));
 });
 
 // Global error handler (optional)

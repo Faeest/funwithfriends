@@ -8,20 +8,58 @@
 [data-theme=forest], [data-theme=forest] *));
 @plugin "@iconify/tailwind4";
 @source "../public/*.{html,js}";
+@source "../public/**/*";
 @source "../src/*.{css}";
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+:root {
+	--swal2-background: var(--color-base-100) !important;
+	--swal2-color: var(--color-base-content) !important;
+}
 * {
 	font-family: "Poppins", sans-serif;
 	/* @apply !outline; */
 }
 .btn-container > a.kofi-button {
-	@apply !btn !btn-primary !my-1;
+	@apply !btn !btn-primary !my-1 !min-w-auto;
+}
+.btn-container {
+	@apply !min-w-auto;
 }
 div.btn-container > a > span.kofitext {
-    @apply !text-(--btn-fg);
+	@apply !text-(--btn-fg);
 }
 @layer components {
 	.list-row {
 		@apply bg-slate-950/2 dark:bg-slate-50/2 p-3 rounded-sm shadow;
+	}
+}
+
+@keyframes kofi-wiggle {
+	0% {
+		transform: rotate(0) scale(1);
+	}
+	60% {
+		transform: rotate(0) scale(1);
+	}
+	75% {
+		transform: rotate(0) scale(1.12);
+	}
+	80% {
+		transform: rotate(0) scale(1.1);
+	}
+	84% {
+		transform: rotate(-10deg) scale(1.1);
+	}
+	88% {
+		transform: rotate(10deg) scale(1.1);
+	}
+	92% {
+		transform: rotate(-10deg) scale(1.1);
+	}
+	96% {
+		transform: rotate(10deg) scale(1.1);
+	}
+	100% {
+		transform: rotate(0) scale(1);
 	}
 }

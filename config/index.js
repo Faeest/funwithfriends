@@ -1,21 +1,26 @@
 require("dotenv").config();
 
 const GAME_CONFIG = {
-	"tic-tac-toe": {
-		name: "Tic-Tac-Toe",
-		capacity: 2,
+	"chat-room": {
+		name: "Chat Room",
+		capacity: 10,
+		minPlayers: 1,
+		colorCode: 3,
+	},
+	"am-i": {
+		name: "am I ...",
+		capacity: 10,
 		minPlayers: 2,
 		colorCode: 1,
 	},
-	checkers: {
-		name: "Checkers",
-		capacity: 2,
-		minPlayers: 2,
+	undercover: {
+		name: "Undercover",
+		capacity: 10,
+		minPlayers: 3,
 		colorCode: 2,
 	},
-	"chat-room": {
-		// Example of a non-game room type
-		name: "Chat Room",
+	"undercover-question": {
+		name: "The question was ...",
 		capacity: 10,
 		minPlayers: 1,
 		colorCode: 3,
