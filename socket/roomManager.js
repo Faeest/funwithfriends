@@ -42,7 +42,6 @@ function createRoom(io, socket, userManager, gameType, hostUsername) {
 		createdAt: Date.now(),
 		status: "waiting", // waiting, ready, in-progress, finished
 	};
-	console.log("BP 1");
 	activeRooms.set(roomId, room);
 	socket.join(roomId);
 	userManager.setUserRoom(socket.id, roomId);
@@ -232,7 +231,7 @@ function getAllActiveRoomsForClient() {
 	return Array.from(activeRooms.values()).map(getRoomInfoForClient);
 }
 
-function startGame(io, socket, userManager, gameManager, roomId) {
+function startGame(io, socket, userManager, gameManager, roomId, data) {
 	// Added userManager
 	const room = activeRooms.get(roomId);
 	const user = userManager.getUser(socket.id); // Now userManager is defined
@@ -251,7 +250,7 @@ function startGame(io, socket, userManager, gameManager, roomId) {
 	}
 
 	room.status = "in-progress";
-	gameManager.initializeGame(room); // Pass the whole room object
+	gameManager.initializeGame(room, data); // Pass the whole room object
 
 	console.log(`Game started in room ${roomId} by ${user.username}`);
 	io.to(roomId).emit("game_started", {

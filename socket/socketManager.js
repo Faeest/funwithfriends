@@ -190,10 +190,10 @@ module.exports = function (io) {
 			}
 		});
 
-		socket.on("start_game_request", ({ roomId }, callback) => {
+		socket.on("start_game_request", ({ roomId, data }, callback) => {
 			try {
 				// Pass userManager to startGame
-				const result = roomManager.startGame(io, socket, userManager, gameManager, roomId);
+				const result = roomManager.startGame(io, socket, userManager, gameManager, roomId, data);
 				if (result.error) {
 					socket.emit("custom_error", { message: result.message });
 					if (callback) callback(result);
@@ -201,7 +201,7 @@ module.exports = function (io) {
 					mixpanel.track("Playing Game", {
 						distinct_id: distinctId, // CRITICAL: Identify the user
 						"Room ID": result.room.id,
-						"Game Type": gameType,
+						"Game Type": result.room.gameType,
 						Source: "Server",
 					});
 

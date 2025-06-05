@@ -1,53 +1,39 @@
+// interfaces-server.js
 require("dotenv").config();
 const express = require("express");
 const http = require("http");
-const { Server } = require("socket.io");
 const path = require("path");
+const cors = require("cors"); // For API CORS
 const config = require("./config");
-
-// Managers (these are stateful modules)
-const userManager = require("./socket/userManager");
-const roomManager = require("./socket/roomManager");
-const gameManager = require("./socket/gameManager");
-
-// Routers - pass manager instances for data access
-const mainRoutes = require("./routes/index")(roomManager); // Pass roomManager for route logic
-const apiRoutes = require("./routes/api")(roomManager, config.GAME_CONFIG); // Pass roomManager & gameConfig
+const mainRoutes = require("./routes/index")(); // Pass nothing if it doesn't need live manager state
+const apiRoutes = require("./routes/api")(null, config.GAME_CONFIG); // Pass null for roomManager, or adapt apiRoutes
 
 const app = express();
 const server = http.createServer(app);
 
-const io = new Server(server, {
-	cors: {
-		origin: config.CORS_ORIGIN, // Use configured origin
-		methods: ["GET", "POST"],
-	},
-});
-
 // Middleware
-app.use(express.json()); // For parsing application/json
-app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
-app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+app.use(cors({ origin: config.CORS_ORIGIN_INTERFACES })); // CORS for API requests
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Setup Routes
 app.use("/", mainRoutes);
 app.use("/api", apiRoutes);
 
-// Initialize Socket.IO connection handling
-require("./socket/socketManager")(io); // Pass the io instance
-
-// Catch-all for 404 Not Found (optional)
+// Catch-all for 404 Not Found
 app.use((req, res, next) => {
 	res.status(404).sendFile(path.join(__dirname, "public", "error", "404.html"));
 });
 
-// Global error handler (optional)
+// Global error handler
 app.use((err, req, res, next) => {
-	console.error("Global error handler:", err.stack);
-	res.status(500).send("Something broke!");
+	console.error("Global error handler (Interfaces):", err.stack);
+	res.status(500).send("Something broke on the interfaces server!");
 });
 
 server.listen(config.PORT, () => {
-	console.log(`Server running on http://localhost:${config.PORT}`);
-	console.log(`CORS Origin set to: ${config.CORS_ORIGIN}`);
+	console.log(`Interfaces server running on http://localhost:${config.PORT}`);
+	console.log(`Interfaces CORS Origin set to: ${config.CORS_ORIGIN_INTERFACES}`);
+	console.log(`Client should connect to Socket server at ws://localhost:${config.SOCKET_PORT}`);
 });

@@ -5,25 +5,33 @@
 
 function initializeGame(room) {
 	// Example: Tic-Tac-Toe
-	if (room.gameType === "tic-tac-toe") {
+	if (room.gameType === "chat-room") {
 		room.gameState = {
-			board: Array(9).fill(null),
-			currentPlayer: room.players[0].socketId, // First player in list starts
+			template: room.amiTemplate || "default",
+			currentPlayer: room.players[0].socketId,
 			turn: room.players[0].username,
 			winner: null,
 			isDraw: false,
 		};
-	} else if (room.gameType === "checkers") {
-		// Initialize checkers board, pieces, current player, etc.
+	} else if (room.gameType === "am-i") {
 		room.gameState = {
-			board: [], // Represent board state
-			pieces: {}, // Player pieces
+			template: room.amiTemplate || "default",
+		};
+	} else if (room.gameType === "undercover") {
+		room.gameState = {
+			isVote: false,
+			readyToVote: 0,
+			unvercoderId: null,
+			votes: {},
+		};
+	} else if (room.gameType === "undercover-question") {
+		room.gameState = {
+			board: [],
+			pieces: {},
 			currentPlayer: room.players[0].socketId,
 			turn: room.players[0].username,
-			// ... other checkers specific state
 		};
 	} else {
-		// Generic state for other games or chat rooms
 		room.gameState = {
 			message: `Game type ${room.gameType} initialized. No specific logic yet.`,
 			turn: room.players.length > 0 ? room.players[0].username : "N/A",

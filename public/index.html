@@ -95,7 +95,7 @@
 				<div class="flex">
 					<label class="grow" for="gameTypeSelect">Select Game Type:</label>
 					<div class="tooltip" data-tip="Guides">
-						<div class="btn btn-sm btn-ghost btn-square h-6" onclick="my_modal_4.showModal()"><span class="icon-[bitcoin-icons--question-filled] text-xl"></span></div>
+						<div class="btn btn-sm btn-ghost btn-square h-6" onclick="guides.showModal()"><span class="icon-[bitcoin-icons--question-filled] text-xl"></span></div>
 					</div>
 				</div>
 				<select class="select w-full" id="gameTypeSelect">
@@ -115,7 +115,7 @@
 				<div class="md:grid lg:grid-cols-3 grid-cols-2 flex flex-col gap-5" id="availableRoomsList"></div>
 			</div>
 		</div>
-		<dialog id="my_modal_4" class="modal">
+		<dialog id="guides" class="modal">
 			<div class="modal-box w-11/12 max-w-5xl gap-5 flex flex-col">
 				<h3 class="text-lg font-bold text-center">Game guides</h3>
 				<div class="tabs tabs-box">
@@ -144,8 +144,10 @@
 		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.all.min.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="/js/connector.js"></script>
 		<script>
 			const toastClasses = {
+				popup: "!bg-base-200",
 				title: `!text-base-content`,
 				content: `!text-base-content !opacity-80`,
 				confirmButton: `btn btn-primary`,
@@ -165,16 +167,8 @@
 					toast.onmouseleave = Swal.resumeTimer;
 				},
 			});
-			document.addEventListener("DOMContentLoaded", () => {
-				Swal.fire({
-					title: "SweetAlert2 is working!",
-					icon: "success",
-					customClass: toastClasses,
-					buttonsStyling: false,
-				});
-			});
 
-			const socket = io(); // Connect to the server
+			const socket = connect(io); // Connect to the server
 
 			const gameTypeSelect = document.getElementById("gameTypeSelect");
 			const usernameInput = document.getElementById("usernameInput");
@@ -239,7 +233,7 @@
 							li.addEventListener("click", () => {
 								const username = usernameInput.value.trim();
 								if (!username) {
-									alert("Please enter a username before joining a room.");
+									toastAlert.fire({ icon: "error", title: `Please enter a username before joining a room.` });
 									usernameInput.focus();
 									return;
 								}
@@ -265,11 +259,11 @@
 				const gameType = gameTypeSelect.value;
 				const username = usernameInput.value.trim();
 				if (!username) {
-					alert("Please enter a username.");
+					toastAlert.fire({ icon: "error", title: "Please enter a username." });
 					return;
 				}
 				if (!gameType) {
-					alert("Please select a game type.");
+					toastAlert.fire({ icon: "error", title: "Please select a game type." });
 					return;
 				}
 				socket.emit("create_room", { gameType, username });
@@ -279,39 +273,44 @@
 				const roomId = roomIdInput.value.trim();
 				const username = usernameInput.value.trim();
 				if (!username) {
-					alert("Please enter a username.");
+					toastAlert.fire({ icon: "error", title: "Please enter a username." });
 					return;
 				}
 				if (!roomId) {
-					alert("Please enter a Room ID.");
+					toastAlert.fire({ icon: "error", title: "Please enter a Room ID." });
 					return;
 				}
 				socket.emit("join_room", { roomId, username });
 			});
 
 			socket.on("room_created", (data) => {
-				alert(`Room created! ID: ${data.roomId}. Joining game type: ${data.gameType}`);
+				document.body.classList.add("on-load");
+				toastAlert.fire({ icon: "success", timer: 1000, title: `Room created! Please wait` }).then((result) => {
+					if (result.dismiss === Swal.DismissReason.timer) {
+						window.location.href = `/game/${data.gameType}/${data.roomId}`;
+					}
+				});
 				sessionStorage.setItem("reestablishRoomId", data.roomId);
 				sessionStorage.setItem("reestablishUsername", usernameInput.value.trim()); // Username used for creation
 				sessionStorage.setItem("reestablishGameType", data.gameType);
 				sessionStorage.setItem("isReestablishingHost", "true"); // Flag that this user was the creator
-				window.location.href = `/game/${data.gameType}/${data.roomId}`;
 			});
 
 			socket.on("joined_room_success", (data) => {
-				alert(`Successfully joined room ${data.roomId}! Game type: ${data.gameType}`);
-
+				document.body.classList.add("on-load");
+				toastAlert.fire({ icon: "success", timer: 1000, title: `Joined! Please wait` }).then((result) => {
+					if (result.dismiss === Swal.DismissReason.timer) {
+						window.location.href = `/game/${data.gameType}/${data.roomId}`;
+					}
+				});
 				sessionStorage.setItem("reestablishRoomId", data.roomId);
 				sessionStorage.setItem("reestablishUsername", usernameInput.value.trim()); // Username used for joining
 				sessionStorage.setItem("reestablishGameType", data.gameType);
 				sessionStorage.setItem("isReestablishingHost", "false"); // Flag for regular joiner
-
-				window.location.href = `/game/${data.gameType}/${data.roomId}`;
 			});
 
 			socket.on("custom_error", (error) => {
-				console.error("Server error:", error.message);
-				alert(`Error: ${error.message}`);
+				toastAlert.fire({ icon: "success", title: `"Server error!`, text: error.message });
 			});
 
 			// Handle username already set if re-visiting home page

@@ -37,6 +37,7 @@ module.exports = function (roomManagerInstance, gameConfigs) {
 				name: config.name,
 				capacity: config.capacity,
 				minPlayers: config.minPlayers,
+				settings: config.settings || {},
 			}));
 			res.json(availableGames);
 		} catch (error) {
