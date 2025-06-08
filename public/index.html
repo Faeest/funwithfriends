@@ -178,7 +178,7 @@
 			const availableRoomsList = document.getElementById("availableRoomsList");
 
 			// Fetch game types for the dropdown
-			fetch("/api/games")
+			fetch("/api/games/id,name")
 				.then((res) => res.json())
 				.then((gameTypes) => {
 					gameTypes.forEach((game) => {

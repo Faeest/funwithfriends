@@ -3,19 +3,15 @@
 // This is a placeholder. Specific game logic will be implemented here.
 // For now, it just sets up a generic game state.
 
-function initializeGame(room) {
+function initializeGame(room, data) {
 	// Example: Tic-Tac-Toe
 	if (room.gameType === "chat-room") {
-		room.gameState = {
-			template: room.amiTemplate || "default",
-			currentPlayer: room.players[0].socketId,
-			turn: room.players[0].username,
-			winner: null,
-			isDraw: false,
-		};
+		room.gameState = {};
 	} else if (room.gameType === "am-i") {
 		room.gameState = {
-			template: room.amiTemplate || "default",
+			words: {
+
+			}
 		};
 	} else if (room.gameType === "undercover") {
 		room.gameState = {
@@ -47,8 +43,6 @@ function updateGameState(io, room, newState) {
 }
 
 function processGameAction(io, roomManager, room, socketId, action, data) {
-	// Server-side validation of the action
-	// Example: For Tic-Tac-Toe, action might be 'make_move', data could be { cellIndex }
 	console.log(`Processing game action for room ${room.id} from ${socketId}:`, action, data);
 
 	const player = room.players.find((p) => p.socketId === socketId);

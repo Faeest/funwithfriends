@@ -7,13 +7,12 @@
 		<link rel="stylesheet" href="/css/style.css" />
 	</head>
 	<body>
+		<label for="sidebar" class="btn btn-primary drawer-button btn-square fixed bottom-8 right-12 hover:[&>*]:rotate-90 hover:scale-125 transition"><span class="icon-[uil--setting] text-2xl transition"></span></label>
+
 		<div class="drawer">
-			<input checked="true" id="my-drawer" type="checkbox" class="drawer-toggle" />
-			<div class="drawer-content">
-				<label for="my-drawer" class="btn btn-primary drawer-button">Open drawer</label>
-			</div>
+			<input checked="true" id="sidebar" type="checkbox" class="drawer-toggle" />
 			<div class="drawer-side">
-				<label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+				<label for="sidebar" aria-label="close sidebar" class="drawer-overlay"></label>
 				<div class="menu flex-nowrap gap-5 bg-base-200 text-base-content min-h-full max-h-full w-80 p-4">
 					<div class="flex flex-col overflow-y-auto shrink border-b border-base-content/25">
 						<div class="w-full grid grid-cols-2 py-5 border-b border-b-base-content/25">
@@ -52,15 +51,15 @@
 						</div>
 						<div class="join w-full grid grid-cols-2">
 							<button class="btn mt-3 btn-error rounded-l-sm border-none" id="leaveRoomButton">Leave Room</button>
-							<label for="my-drawer" class="btn btn-success mt-3 rounded-r-sm border-none">Close</label>
+							<label for="sidebar" class="btn btn-success mt-3 rounded-r-sm border-none">Close</label>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="flex w-full min-h-full">
-			<div id="gameArea">
-				<p>Waiting for game to start...</p>
+		<div class="flex w-full mas-h-screen h-screen">
+			<div id="gameArea" class="flex grow p-10 lg:text-7xl md:text-5xl text-3xl justify-center items-center">
+				<p class="text-center lg:leading-tight leading-normal font-semibold max-w-4xl">Waiting for the game to start</p>
 			</div>
 		</div>
 		<dialog id="settings" class="modal">
@@ -68,16 +67,17 @@
 				<h3 class="text-lg font-bold pb-5">Setting</h3>
 				<div id="settingModalContent" class="flex flex-col max-h-[70vh] overflow-scroll w-full py-5 px-2 not-last:[&>div]:border-b border-primary">
 					<div class="flex flex-col p-5 gap-4 w-full game-2">
-						<label class="grow" for="am_i_1">Category</label>
+						<label class="grow" for="am_i_1">Categories</label>
 						<select id="am_i_1" class="select w-full"></select>
 					</div>
 					<div class="flex flex-col p-5 gap-4 w-full game-2">
-						<label class="grow" for="am_i_2">Tag</label>
+						<label class="grow" for="am_i_2">Tags</label>
 						<select id="am_i_2" class="select w-full"></select>
 					</div>
 					<div class="flex flex-col p-5 gap-4 w-full game-2">
-						<label class="grow" for="am_i_3">Tag List</label>
+						<label class="grow" for="am_i_3">List</label>
 						<div id="am_i_3" class="flex flex-wrap justify-around w-full p-5 bg-base-200 rounded gap-3 [&>*]:grow [&>*:nth-child(even)]:badge-primary [&>*:nth-child(odd)]:badge-secondary [&>*]:badge"></div>
+						<textarea id="am_i_list" class="w-full p-5 textarea bg-base-200"></textarea>
 					</div>
 					<div class="flex flex-col p-5 gap-4 w-full game-3">
 						<label class="grow" for="undercover_1">Category</label>
@@ -103,6 +103,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.all.min.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/js/connector.js"></script>
+		<script src="/js/gameInstance.js"></script>
 		<script>
 			const toastClasses = {
 				popup: "!bg-base-200",
@@ -125,13 +126,12 @@
 					toast.onmouseleave = Swal.resumeTimer;
 				},
 			});
+			const pathParts = window.location.pathname.split("/");
+			const gameType = pathParts[2];
+			const roomId = pathParts[3];
 			let gameData;
 			let gameInstance;
 			const main = () => {
-				const pathParts = window.location.pathname.split("/");
-				const gameType = pathParts[2]; // Assuming URL is /game/:gameType/:roomId
-				const roomId = pathParts[3];
-
 				document.getElementById("roomIdDisplay").textContent = roomId;
 				document.getElementById("gameTypeDisplay").textContent = gameType;
 
@@ -194,6 +194,7 @@
 
 					if (room.host.socketId === socket.id) {
 						hostControls.style.display = "grid";
+						setupSettings();
 						if (room.status === "waiting" || room.status === "ready") {
 							startGameButton.disabled = false;
 						} else {
@@ -204,11 +205,11 @@
 					}
 
 					if (room.status === "in-progress") {
-						gameArea.innerHTML = `<p>Game is in progress! (Game Type: ${room.gameType})</p>`;
+						console.log(`Game is in progress! (Game Type: ${room.gameType})`);
 					} else if (room.status === "finished") {
-						gameArea.innerHTML = `<p>Game finished!</p>`;
+						console.log("Game finished!");
 					} else {
-						gameArea.innerHTML = `<p>Waiting for game to start... Min ${room.minPlayers} players needed.</p>`;
+						console.log(`Waiting for game to start... Min ${room.minPlayers} players needed.`);
 					}
 				});
 
@@ -248,7 +249,6 @@
 								document.body.classList.remove("on-load");
 							}
 						});
-						gameArea.innerHTML = `<p>Game started! (Game Type: ${gameType})</p><p>Initial game state: ${JSON.stringify(data.gameState)}</p>`;
 						socket.emit("get_room_info_request", { roomId }); // Re-fetch details
 					}
 				});
@@ -277,7 +277,16 @@
 				});
 
 				startGameButton.addEventListener("click", () => {
-					socket.emit("start_game_request", { roomId });
+					let data;
+					let isRandom = document.getElementById("am_i_1").value == "random";
+					if (isRandom) {
+						data = _.flatMapDeep(gameData[1].settings.category, (category) => _.flatMap(category));
+					} else {
+						let am_i_list = document.getElementById("am_i_list");
+						data = am_i_list.value ? am_i_list.value.split(",").map((e) => e.trim()) : [];
+					}
+					console.log(data);
+					socket.emit("start_game_request", { roomId, data });
 				});
 
 				leaveRoomButton.addEventListener("click", () => {
@@ -338,9 +347,13 @@
 								const update_am_i_tag = (e) => {
 									const selectedCategory = e?.target?.value || am_i_1?.value || "random";
 									const am_i_2 = document.getElementById("am_i_2");
-									am_i_2.innerHTML = ""; // Clear previous options
+									am_i_2.innerHTML = "";
 									if (selectedCategory && game.settings.category[selectedCategory]) {
 										const tags = Object.keys(game.settings.category[selectedCategory]);
+										if (selectedCategory != "random") {
+											tags.push("random");
+											tags.push("other");
+										}
 										tags.forEach((tag) => {
 											const option = document.createElement("option");
 											option.value = tag;
@@ -353,16 +366,32 @@
 								const update_am_i_entry = (e) => {
 									const selectedCategory = am_i_1?.value || "random";
 									const am_i_3 = document.getElementById("am_i_3");
+									const am_i_list = document.getElementById("am_i_list");
 									const am_i_2 = document.getElementById("am_i_2");
 									const selectedTag = e?.target?.value || am_i_2?.value || "random";
-									am_i_3.innerHTML = ""; // Clear previous options
-									if (selectedTag && selectedCategory && game.settings.category[selectedCategory][selectedTag]) {
-										const entries = game.settings.category[selectedCategory][selectedTag];
+									if (selectedTag == "other") {
+										am_i_3.classList.add("hidden");
+										am_i_list.classList.remove("hidden");
+									} else {
+										am_i_3.classList.remove("hidden");
+										am_i_list.classList.add("hidden");
+									}
+									am_i_3.innerHTML = "";
+									if (selectedTag && selectedCategory && (game.settings.category[selectedCategory][selectedTag] || selectedTag == "random")) {
+										let entries;
+										if (selectedTag == "random") {
+											entries = Object.keys(game.settings.category[selectedCategory])
+												.map((tag) => game.settings.category[selectedCategory][tag])
+												.flat();
+										} else {
+											entries = game.settings.category[selectedCategory][selectedTag];
+										}
 										entries.forEach((entry) => {
 											const badge = document.createElement("div");
 											badge.textContent = _.capitalize(entry.length > 50 ? entry.substring(0, 25) + "..." : entry);
 											am_i_3.appendChild(badge);
 										});
+										am_i_list.value = entries.join(", ");
 									}
 								};
 								let categories = Object.keys(game.settings.category);
@@ -379,9 +408,6 @@
 							}
 						});
 						requestAnimationFrame(() => {
-							const pathParts = window.location.pathname.split("/");
-							const gameType = pathParts[2];
-							const roomId = pathParts[3];
 							const gameTypes = _.map(gameData, "id");
 							const gameIndex = _.indexOf(gameTypes, gameType) + 1;
 							document.querySelectorAll(`.game-${gameIndex}`).forEach((e) => {
@@ -397,7 +423,6 @@
 					});
 			};
 			main();
-			setupSettings();
 		</script>
 		<script>
 			document.addEventListener("DOMContentLoaded", function () {

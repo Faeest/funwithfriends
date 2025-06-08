@@ -1,60 +1,167 @@
 {
 	"settings": {
 		"category": {
-			"random": { "random": ["random"] },
-			"person": {
-				"artist": ["Leonardo da Vinci", "Vincent van Gogh", "Pablo Picasso", "Frida Kahlo", "Michelangelo", "Rembrandt van Rijn", "Claude Monet", "Georgia O'Keeffe", "Salvador Dalí", "Andy Warhol", "Yayoi Kusama", "Banksy", "Hokusai", "Edvard Munch"],
-				"musician_composer": ["Wolfgang Amadeus Mozart", "Ludwig van Beethoven", "Johann Sebastian Bach", "Frédéric Chopin", "Pyotr Ilyich Tchaikovsky", "The Beatles (John Lennon, Paul McCartney, George Harrison, Ringo Starr)", "Elvis Presley", "Michael Jackson", "Madonna", "Queen (Freddie Mercury)", "Bob Marley", "Bob Dylan", "Stevie Wonder", "Aretha Franklin", "Frank Sinatra", "Beyoncé", "Taylor Swift"],
-				"popular_entertainment": ["Charlie Chaplin", "Marilyn Monroe", "Audrey Hepburn", "Tom Hanks", "Meryl Streep", "Leonardo DiCaprio", "Dwayne \"The Rock\" Johnson", "Oprah Winfrey", "Ellen DeGeneres", "Keanu Reeves", "Shah Rukh Khan", "Jackie Chan", "Akira Kurosawa (Director)", "Steven Spielberg (Director)", "Hayao Miyazaki (Animator/Director)"],
-				"historical": ["Cleopatra", "Julius Caesar", "Augustus Caesar", "Alexander the Great", "Genghis Khan", "Joan of Arc", "Queen Elizabeth I", "Catherine the Great", "Christopher Columbus", "Ferdinand Magellan", "Marco Polo", "Sun Tzu", "William Shakespeare", "Homer"],
-				"political_leader_activist": ["Mahatma Gandhi", "Nelson Mandela", "Martin Luther King Jr.", "Winston Churchill", "Franklin D. Roosevelt", "Abraham Lincoln", "George Washington", "Queen Victoria", "Napoleon Bonaparte", "Barack Obama", "Angela Merkel", "Vladimir Putin", "Xi Jinping", "Dalai Lama", "Malala Yousafzai", "Greta Thunberg", "Che Guevara"],
-				"scientist_mathematician_inventor": ["Albert Einstein", "Isaac Newton", "Marie Curie", "Charles Darwin", "Galileo Galilei", "Nikola Tesla", "Louis Pasteur", "Archimedes", "Pythagoras", "Euclid", "Leonardo Fibonacci", "Ada Lovelace", "Alan Turing", "Stephen Hawking", "Rosalind Franklin", "Tim Berners-Lee", "Alexander Graham Bell", "Thomas Edison", "James Watt", "The Wright Brothers"],
-				"athlete": ["Pelé", "Diego Maradona", "Lionel Messi", "Cristiano Ronaldo", "Muhammad Ali", "Michael Jordan", "LeBron James", "Serena Williams", "Roger Federer", "Rafael Nadal", "Usain Bolt", "Michael Phelps", "Tiger Woods", "Simone Biles", "Wayne Gretzky", "Babe Ruth", "Jesse Owens"],
-				"religious_figure": ["Jesus Christ", "Prophet Muhammad", "Buddha (Siddhartha Gautama)", "Moses", "Abraham", "Krishna", "Guru Nanak", "Zoroaster", "Confucius", "Lao Tzu", "The Pope (e.g., Pope Francis - office)", "Martin Luther"],
-				"philosopher_thinker": ["Socrates", "Plato", "Aristotle", "Confucius", "Lao Tzu", "René Descartes", "Immanuel Kant", "Friedrich Nietzsche", "Simone de Beauvoir", "Karl Marx", "Voltaire", "John Locke"],
-				"explorer_innovator_historical": ["Marco Polo", "Ibn Battuta", "Vasco da Gama", "James Cook", "Roald Amundsen", "Neil Armstrong", "Yuri Gagarin", "Johannes Gutenberg", "Henry Ford"]
+			"people": {
+				"historical_leaders": ["Julius Caesar", "Cleopatra", "Napoleon Bonaparte", "Alexander the Great", "Genghis Khan", "Charlemagne", "Queen Elizabeth I", "King Louis XIV", "Catherine the Great", "Emperor Qin Shi Huang", "Cyrus the Great", "Saladin", "Suleiman the Magnificent", "Ramesses II", "Solomon"],
+				"scientists": ["Albert Einstein", "Isaac Newton", "Marie Curie", "Nikola Tesla", "Stephen Hawking", "Aristotle", "Archimedes", "Niels Bohr", "Max Planck", "Schrödinger", "Heisenberg", "Ampère", "Ohm", "Joule", "Kelvin", "Celsius", "Fahrenheit"],
+				"philosophers": ["Socrates", "Plato", "Aristotle", "Confucius", "Buddha", "Karl Marx", "Ibn Sina"],
+				"inventors": ["Thomas Edison", "Nikola Tesla", "Alexander Graham Bell", "Henry Ford", "Steve Jobs", "Bill Gates", "Leonardo da Vinci"],
+				"explorers": ["Christopher Columbus", "Marco Polo", "Vasco da Gama", "Ferdinand Magellan", "James Cook", "Ernest Shackleton", "Yuri Gagarin", "Neil Armstrong", "Jacques Cousteau", "Zheng He", "Ibn Battuta"],
+				"religious_figures": ["Jesus Christ", "Muhammad", "Buddha", "Moses", "Abraham", "Mahavira", "Zoroaster", "Confucius", "Lao Tzu", "Saint Paul", "Saint Augustine", "Saint Francis of Assisi", "Thomas Aquinas", "Martin Luther", "John Calvin", "Mother Teresa", "Mahatma Gandhi", "Pope Francis"],
+				"mythological_figures": ["Zeus", "Odin", "Ra", "Shiva", "Thor", "Hercules", "Achilles", "King Arthur", "Merlin", "Lancelot", "Robin Hood", "Coyote", "Raven", "Sun Wukong", "Nezha", "Chang'e", "Momotarō", "Susanoo", "Amaterasu", "Quetzalcoatl", "Tezcatlipoca", "Viracocha", "Inti", "Pachamama", "Kokopelli", "Wendigo", "Thunderbird", "Sedna", "Nanabozho", "Baba Yaga", "Koschei", "Firebird", "Sirin", "Rusalka"],
+				"military_leaders": ["Alexander the Great", "Julius Caesar", "Napoleon Bonaparte", "Hannibal", "Sun Tzu", "Saladin", "Joan of Arc", "Richard the Lionheart", "Genghis Khan", "Pompey", "Khalid ibn al-Walid", "Douglas MacArthur"],
+				"revolutionaries": ["Fidel Castro", "Vladimir Lenin", "Mao Zedong", "Nelson Mandela", "Mahatma Gandhi", "Martin Luther King Jr.", "Malcolm X"],
+				"entertainers": ["Elvis Presley", "Michael Jackson", "Madonna", "The Beatles", "Frank Sinatra", "Marilyn Monroe", "Charlie Chaplin", "Laurel and Hardy", "Lucille Ball", "Johnny Carson", "Oprah Winfrey", "Walt Disney", "Steven Spielberg", "Alfred Hitchcock", "Orson Welles", "Akira Kurosawa", "Federico Fellini", "Ingmar Bergman", "Stanley Kubrick", "Martin Scorsese", "Quentin Tarantino", "Meryl Streep", "Robert De Niro", "Al Pacino", "Jack Nicholson", "Katharine Hepburn", "Humphrey Bogart", "Cary Grant", "James Dean", "Marlon Brando", "Audrey Hepburn", "Grace Kelly", "Elizabeth Taylor", "Judy Garland", "Fred Astaire", "Gene Kelly", "Bob Dylan", "Aretha Franklin"],
+				"fictional_characters": ["Sherlock Holmes", "Hamlet", "Don Quixote", "Odysseus", "Beowulf", "King Lear", "Macbeth", "Romeo and Juliet", "Elizabeth Bennet", "Mr. Darcy", "Jane Eyre", "Heathcliff", "Jean Valjean", "Atticus Finch", "Holden Caulfield", "Jay Gatsby", "Scarlett O'Hara", "Rhett Butler", "Superman", "Batman", "Spider-Man", "Wonder Woman", "Captain America", "Iron Man", "The Hulk", "Luke Skywalker", "Darth Vader", "Princess Leia", "Han Solo", "Frodo Baggins", "Gandalf", "Aragorn", "Legolas", "Gimli", "Harry Potter", "Hermione Granger", "Ron Weasley", "Dumbledore", "Voldemort", "James Bond", "Indiana Jones", "John McClane", "Ellen Ripley", "Sarah Connor", "Neo", "Trinity", "Morpheus", "The Joker", "Hannibal Lecter", "Dracula", "Frankenstein's Monster"]
 			},
-			"company_brand": {
-				"technology": ["Apple", "Google (Alphabet)", "Microsoft", "Amazon", "Meta (Facebook, Instagram, WhatsApp)", "Samsung", "Sony", "IBM", "Intel", "Nvidia", "Tesla", "SpaceX", "Netflix", "Spotify", "Tencent", "Alibaba"],
-				"consumer_goods": ["Coca-Cola", "PepsiCo", "Nestlé", "Procter & Gamble", "Unilever", "L'Oréal", "Nike", "Adidas", "McDonald's", "Starbucks", "KFC", "IKEA", "LEGO", "Toyota", "Volkswagen", "Ford", "BMW", "Mercedes-Benz"],
-				"finance_services": ["Visa", "Mastercard", "American Express", "JPMorgan Chase", "Goldman Sachs", "HSBC", "Berkshire Hathaway"],
-				"media_entertainment_company": ["Disney", "Warner Bros. Discovery", "Comcast (NBCUniversal)", "Netflix", "Sony Pictures", "Nintendo", "Electronic Arts (EA)", "Activision Blizzard"]
+			"places": {
+				"countries": ["Japan", "Brazil", "Egypt", "Australia", "Canada", "India", "Russia", "South Africa", "Mexico", "Indonesia"],
+				"cities": ["Tokyo", "Paris", "New York City", "Cairo", "Mumbai", "Sydney", "Rome", "Dubai", "Rio de Janeiro", "Seoul"],
+				"natural_landmarks": ["Grand Canyon", "Mount Everest", "Victoria Falls", "Great Barrier Reef", "Aurora Borealis", "Sahara Desert", "Amazon Rainforest", "Dead Sea", "Table Mountain", "Uluru (Ayers Rock)"],
+				"man_made_landmarks": ["Eiffel Tower", "Great Wall of China", "Statue of Liberty", "Taj Mahal", "Colosseum", "Pyramids of Giza", "Christ the Redeemer", "Big Ben", "Sydney Opera House", "Burj Khalifa"],
+				"mythological_places": ["Atlantis", "El Dorado", "Shambhala", "Avalon", "Hyperborea", "Asgard", "Tir na nÓg", "Lemuria", "Camelot", "Pandora"],
+				"fictional_places": ["Middle-earth", "Hogwarts", "Metropolis", "Westeros", "Narnia", "Cybertron", "Neverland", "Gotham City", "Pandora (Avatar)", "Arrakis"],
+				"historical_sites": ["Machu Picchu", "Petra", "Chichen Itza", "Stonehenge", "Angkor Wat", "Delphi", "Teotihuacan", "Tikal", "Hagar Qim", "Great Zimbabwe"],
+				"sacred_places": ["Mecca", "Varanasi", "Jerusalem", "Mount Kailash", "Lhasa", "Vatican City", "Bodh Gaya", "Ise Grand Shrine", "Ayodhya", "Salt Lake Temple"],
+				"geographical_features": ["Andes Mountains", "Amazon River", "Sahel Region", "Arabian Peninsula", "Appalachian Mountains", "Great Lakes", "Congo Basin", "Yangtze River", "Great Dividing Range", "Kalahari Desert"],
+				"underwater_places": ["Bikini Atoll", "Titanic wreck", "Great Blue Hole", "Yonaguni Monument", "Lost City of Heracleion", "Lake Vostok", "Marina Trench", "MS Zenobia shipwreck", "Thonis-Heracleion", "Antikythera shipwreck"],
+				"space_locations": ["Moon", "Mars", "International Space Station", "Jupiter", "Saturn’s rings", "Alpha Centauri", "Andromeda Galaxy", "Hubble Deep Field", "Voyager 1 location", "Oort Cloud"]
 			},
-			"object_manmade": {
-				"landmark_structure": ["Eiffel Tower", "Statue of Liberty", "Great Wall of China", "Pyramids of Giza", "Sphinx", "Taj Mahal", "Colosseum", "Machu Picchu", "Christ the Redeemer", "Sydney Opera House", "Burj Khalifa", "Brandenburg Gate", "Kremlin", "Petra", "Angkor Wat"],
-				"artwork_iconic": ["Mona Lisa", "The Last Supper", "The Starry Night", "The Scream", "Guernica", "Girl with a Pearl Earring", "The Thinker (sculpture)", "David (Michelangelo sculpture)", "Venus de Milo (sculpture)"],
-				"everyday_technology": ["Smartphone", "Computer (Desktop/Laptop)", "Internet", "Television", "Automobile (Car)", "Airplane", "Refrigerator", "Washing Machine", "Microwave Oven", "Camera", "Watch/Smartwatch", "Radio"],
-				"tool_instrument": ["Hammer", "Screwdriver", "Wheel", "Printing Press", "Telescope", "Microscope", "Compass", "Clock", "Pen", "Paper"]
+			"things": {
+				"technology": ["smartphone", "laptop", "robot", "satellite", "drone", "quantum computer", "electric car", "3D printer", "virtual reality headset", "artificial intelligence"],
+				"weapons": ["sword", "bow and arrow", "musket", "machine gun", "missile", "excalibur", "katana", "spear", "dagger", "crossbow"],
+				"tools": ["hammer", "saw", "chisel", "screwdriver", "wrench", "shovel", "scalpel", "compass", "sextant", "measuring tape"],
+				"vehicles": ["car", "bicycle", "airplane", "boat", "helicopter", "train", "submarine", "spaceship", "hovercraft", "motorcycle"],
+				"furniture": ["chair", "table", "bed", "sofa", "bookshelf", "desk", "cabinet", "bench", "wardrobe", "ottoman"],
+				"clothing": ["shirt", "pants", "dress", "hat", "shoes", "jacket", "scarf", "gloves", "socks", "robes"],
+				"jewelry": ["ring", "necklace", "bracelet", "earrings", "tiara", "amulet", "brooch", "pendant", "anklet", "crown"],
+				"musical_instruments": ["guitar", "piano", "violin", "flute", "drums", "saxophone", "harp", "trumpet", "accordion", "tabla"],
+				"art_objects": ["painting", "sculpture", "statue", "mosaic", "tapestry", "pottery", "calligraphy", "stained glass", "engraving", "mask"],
+				"books": ["Bible", "Quran", "Mahabharata", "Shahnameh", "The Odyssey", "Encyclopaedia Britannica", "Alice in Wonderland", "Harry Potter", "Don Quixote", "The Art of War"],
+				"games": ["chess", "go", "mahjong", "monopoly", "scrabble", "backgammon", "checkers", "dominoes", "roulette", "tetris"],
+				"toys": ["doll", "teddy bear", "lego", "kite", "yoyo", "marbles", "rubik's cube", "top", "board game", "remote control car"],
+				"containers": ["box", "jar", "bottle", "bucket", "urn", "basket", "crate", "coffin", "vase", "suitcase"],
+				"materials": ["wood", "steel", "glass", "plastic", "gold", "silver", "clay", "stone", "leather", "textiles"],
+				"precious_objects": ["diamond", "ruby", "emerald", "sapphire", "opal", "pearl", "gold coin", "treasure chest", "crown jewels", "philosopher's stone"]
 			},
-			"concept_idea": {
-				"social_political": ["Democracy", "Communism", "Socialism", "Capitalism", "Fascism", "Human Rights", "Freedom of Speech", "Justice", "Equality", "Peace", "War", "Nationalism", "Globalization", "Feminism"],
-				"scientific_mathematical": ["Gravity", "Evolution (Theory of)", "Relativity (Theory of)", "Big Bang Theory", "Quantum Mechanics", "DNA (Deoxyribonucleic acid)", "Atom", "E=mc² (Mass-energy equivalence)", "Pi (π)", "Zero (concept of)", "Algorithm", "Artificial Intelligence (AI)", "Climate Change", "Heliocentrism"],
-				"philosophical_abstract": ["Love", "Hate", "Happiness", "Sadness", "Truth", "Beauty", "Good", "Evil", "Time", "Space", "Consciousness", "Existentialism"]
+			"living_beings": {
+				"mammals": ["lion", "elephant", "blue whale", "human", "giraffe", "wolf", "orangutan", "kangaroo", "polar bear", "cheetah"],
+				"birds": ["eagle", "hummingbird", "ostrich", "penguin", "peacock", "raven", "sparrow", "albatross", "flamingo", "condor"],
+				"reptiles": ["crocodile", "komodo dragon", "chameleon", "anaconda", "gecko", "iguana", "king cobra", "sea turtle", "monitor lizard", "alligator"],
+				"fish": ["clownfish", "bluefin tuna", "whale shark", "goldfish", "swordfish", "electric eel", "lionfish", "bluefin tuna", "discus fish", "seahorse"],
+				"insects": ["honeybee", "dragonfly", "butterfly", "ant", "grasshopper", "ladybug", "mosquito", "beetle", "termite", "praying mantis"],
+				"plants": ["baobab tree", "venus flytrap", "cactus", "redwood", "orchid", "moss", "seaweed", "bamboo", "sunflower", "poison ivy"],
+				"trees": ["oak", "sequoia", "cedar", "banyan", "willow", "pine", "fig tree", "eucalyptus", "olive tree", "kapok"],
+				"flowers": ["rose", "tulip", "daisy", "orchid", "lotus", "lavender", "sunflower", "cherry blossom", "hibiscus", "lily"],
+				"mythological_creatures": ["dragon", "griffin", "basilisk", "centaur", "kraken", "sphinx", "minotaur", "cerberus", "hydra", "fenghuang"],
+				"fictional_creatures": ["hobbit", "dementor", "xenomorph", "pokemon", "orc", "troll", "wampa", "wookiee", "digimon", "transformer"],
+				"extinct_animals": ["woolly mammoth", "dodo bird", "saber-toothed cat", "quetzalcoatlus", "glyptodon", "ivory-billed woodpecker", "tasmanian tiger", "moa", "great auk", "steppe bison"],
+				"microorganisms": ["e. coli", "yeast", "plankton", "amoeba", "cyanobacteria", "archaea", "paramecium", "viruses", "fungi spores", "protists"],
+				"fungi": ["mushroom", "morel", "truffle", "penicillium", "shiitake", "portobello", "psilocybin mushroom", "black mold", "yeast", "chanterelle"]
 			},
-			"food_drink": { "food_drink": ["Pizza", "Hamburger", "French Fries", "Sushi", "Pasta (Spaghetti, Lasagna)", "Rice", "Bread", "Curry", "Tacos", "Noodles (Ramen, Pho)", "Chocolate", "Ice Cream", "Coffee", "Tea", "Coca-Cola", "Pepsi", "Beer", "Wine", "Water", "Milk", "Orange Juice", "Apple", "Banana", "Potato"] },
-			"fictional_entity": {
-				"character": ["Mickey Mouse", "Donald Duck", "Bugs Bunny", "Superman", "Batman", "Wonder Woman", "Spider-Man", "Iron Man", "Hulk", "Captain America", "Harry Potter", "Hermione Granger", "Ron Weasley", "Voldemort", "Darth Vader", "Luke Skywalker", "Yoda", "Sherlock Holmes", "James Bond", "Pikachu", "Mario (Nintendo)", "Luigi (Nintendo)", "Zelda", "Link", "Godzilla", "King Kong", "Dracula", "Frankenstein's Monster", "Gandalf", "Frodo Baggins", "Tarzan", "Winnie the Pooh", "Cinderella", "Snow White"],
-				"place_world": ["Hogwarts (Harry Potter)", "Middle-earth (Lord of the Rings)", "Narnia", "Gotham City (Batman)", "Metropolis (Superman)", "A Galaxy Far, Far Away (Star Wars)", "Neverland (Peter Pan)", "Wonderland (Alice in Wonderland)", "Oz (The Wizard of Oz)", "Atlantis", "El Dorado", "Shangri-La"],
-				"object_magical_technological": ["Excalibur", "The One Ring (Lord of the Rings)", "Lightsaber (Star Wars)", "TARDIS (Doctor Who)", "Kryptonite (Superman)", "Magic Wand (Harry Potter)", "Poké Ball (Pokémon)", "DeLorean Time Machine (Back to the Future)"]
+			"food_and_drink": {
+				"fruits": ["apple", "banana", "mango", "durian", "lychee", "persimmon", "pomegranate", "dragon fruit", "olive", "fig", "guava", "passion fruit", "kumquat"],
+				"vegetables": ["broccoli", "okra", "bok choy", "kale", "eggplant", "daikon radish", "jicama", "chayote", "nopales", "taro", "bamboo shoots", "fiddlehead ferns"],
+				"grains": ["rice", "wheat", "quinoa", "millet", "barley", "amaranth", "rye", "sorghum", "farina", "semolina"],
+				"meats": ["beef", "lamb", "venison", "duck", "goose", "rabbit", "boar", "iguana", "horse meat", "crocodile"],
+				"dairy": ["cheddar cheese", "paneer", "feta cheese", "ghee", "yak butter", "mozzarella", "kefir", "buttermilk", "blue cheese", "skim milk"],
+				"beverages": ["coffee", "matcha tea", "mate", "bubble tea", "horchata", "kombucha", "sake", "mezcal", "arak", "kvass"],
+				"spices": ["turmeric", "saffron", "sumac", "star anise", "fenugreek", "cardamom", "za'atar", "berbere", "shichimi togarashi", "long pepper"],
+				"dishes": ["paella", "ramen", "tagine", "pho", "kimchi jjigae", "feijoada", "adobo", "gyros", "biriyani", "injera with doro wat"],
+				"desserts": ["baklava", "tiramisu", "halva", "crepes suzette", "dulce de leche", "warabi mochi", "kheer", "tres leches cake", "mochi ice cream", "panna cotta"],
+				"street_food": ["tacos al pastor", "banh mi", "falafel wrap", "vada pav", "xiao long bao", "roti john", "churros", "arepas", "samosas", "hotteok"],
+				"ceremonial_food": ["wedding cake", "mooncake", "hanami dango", "pan de muerto", "lavash", "communion wafers", "seder plate", "offerings for ancestors", "Himalayan butter tea", "Communion wine"]
 			},
-			"natural_world": {
-				"landmark_natural_phenomenon": ["Mount Everest", "K2", "Mount Fuji", "Amazon Rainforest", "Amazon River", "Nile River", "Grand Canyon", "Great Barrier Reef", "Victoria Falls", "Niagara Falls", "Iguazu Falls", "Sahara Desert", "Gobi Desert", "Serengeti Migration", "Galápagos Islands", "Aurora Borealis/Australis (Northern/Southern Lights)", "Mariana Trench", "Dead Sea", "Yellowstone National Park", "The Moon (celestial body)", "Mars (planet)", "Sun (star)"],
-				"animal": ["Dog", "Cat", "Horse", "Cow", "Sheep", "Pig", "Chicken", "Lion", "Tiger", "Elephant", "Giraffe", "Zebra", "Bear (Grizzly, Polar)", "Wolf", "Fox", "Deer", "Monkey", "Chimpanzee", "Gorilla", "Orangutan", "Whale (Blue, Humpback)", "Dolphin", "Shark (Great White)", "Crocodile", "Alligator", "Snake (Cobra, Python)", "Eagle", "Owl", "Penguin", "Panda", "Kangaroo", "Koala", "Butterfly", "Bee", "Ant"],
-				"plant_tree_fungus": ["Rose", "Sunflower", "Tulip", "Oak Tree", "Pine Tree", "Maple Tree", "Baobab Tree", "Sequoia (Giant Redwood)", "Bamboo", "Cactus", "Fern", "Moss", "Mushroom (general)", "Wheat", "Corn (Maize)", "Rice (plant)", "Sugarcane", "Cotton (plant)", "Coffee Plant", "Tea Plant (Camellia sinensis)", "Grape Vine"],
-				"element_mineral_gemstone": ["Water (H₂O)", "Oxygen (O)", "Carbon (C)", "Hydrogen (H)", "Nitrogen (N)", "Iron (Fe)", "Gold (Au)", "Silver (Ag)", "Copper (Cu)", "Aluminum (Al)", "Diamond", "Ruby", "Sapphire", "Emerald", "Quartz", "Granite", "Marble", "Salt (Sodium Chloride)", "Oil (Crude Oil/Petroleum)", "Coal"]
+			"events": {
+				"wars": ["World War I", "World War II", "Vietnam War", "Napoleonic Wars", "American Civil War", "Thirty Years' War", "Arab-Israeli Wars", "Iran-Iraq War", "Korean War", "War in Afghanistan (2001–2021)", "Sino-Indian Border Conflict", "Falklands War"],
+				"battles": ["Battle of Waterloo", "Battle of Hastings", "Battle of Thermopylae", "Battle of Agincourt", "Battle of Gettysburg", "Battle of Stalingrad", "Battle of Gaugamela", "Battle of Sekigahara", "Battle of Hastings", "Battle of Dien Bien Phu"],
+				"revolutions": ["French Revolution", "American Revolution", "Russian Revolution", "Chinese Revolution", "Haitian Revolution", "Cuban Revolution", "Irish Easter Rising", "Xinhai Revolution", "Bolshoy Krasnokholmsky Uprising", "Velvet Revolution"],
+				"discoveries": ["Discovery of America (by Europeans)", "Discovery of Penicillin", "Discovery of Fire", "Discovery of Gravity", "Discovery of DNA Structure", "Discovery of Electricity", "Discovery of Radioactivity", "Discovery of Australia by Europeans", "Discovery of the Americas by Norse", "Discovery of the Rosetta Stone"],
+				"inventions": ["Invention of the Printing Press", "Invention of the Light Bulb", "Invention of the Internet", "Invention of the Steam Engine", "Invention of the Airplane", "Invention of the Telephone", "Invention of Writing", "Invention of Paper", "Invention of Gunpowder", "Invention of the Microscope"],
+				"natural_disasters": ["Tsunami in Thailand (2004)", "Hurricane Katrina", "Chernobyl Disaster", "Mount Vesuvius Eruption", "Great Lisbon Earthquake", "Tohoku Earthquake and Tsunami", "Yellow River Floods", "San Francisco Earthquake (1906)", "Typhoon Haiyan", "The Dust Bowl"],
+				"festivals": ["Diwali", "Oktoberfest", "Rio Carnival", "Songkran", "Harbin Ice Festival", "Mardi Gras", "Gion Matsuri", "La Tomatina", "Holi", "Día de los Muertos"],
+				"ceremonies": ["Olympic Opening Ceremony", "Coronation of Monarchs", "Japanese Imperial Accession Ceremony", "Royal Ascot", "Eid Prayer Gathering", "Wedding Ceremonies across Cultures", "Funeral Rites (various traditions)", "Coming of Age Ceremonies", "Initiation Rites", "Corpus Christi Procession"],
+				"competitions": ["Olympic Games", "World Cup", "Tour de France", "Formula One World Championship", "Chess Olympiad", "Miss Universe", "International Mathematical Olympiad", "America's Cup", "World Series", "UEFA Champions League Final"],
+				"historical_periods": ["Industrial Revolution", "Renaissance", "Age of Exploration", "Cold War", "Victorian Era", "Silk Road Trade Period", "Edo Period", "Jomon Period", "Zhou Dynasty", "Elizabethan Era"],
+				"mythological_events": ["Titanomachy", "Deluge (Global Flood Myth)", "Thor vs. Jörmungandr", "Krishna Lifting Govardhan Hill", "Sun Wukong's Rebellion in Heaven", "The Trojan War", "Osiris' Death and Resurrection", "The Great Flood (Mesopotamian)", "Amaterasu hiding in the Cave", "The Binding of Fenrir"],
+				"fictional_events": ["Hogwarts Triwizard Tournament", "The Hunger Games", "Battle of Helm's Deep", "Fall of Camelot", "The War of the Ring", "Arrival of the Martians (War of the Worlds)", "The Matrix Simulation Reset", "Battlestar Galactica Fleet Exodus", "The Arrival on Pandora (Avatar)", "The Founding Titan's March"]
 			},
-			"culture_society": {
-				"country": ["United States of America", "China", "India", "Russia", "Japan", "Germany", "United Kingdom", "France", "Brazil", "Canada", "Australia", "Italy", "Spain", "Mexico", "South Korea", "Indonesia", "Nigeria", "Egypt", "Saudi Arabia", "South Africa", "Argentina", "Turkey", "Iran", "Pakistan", "Vietnam"],
-				"language": ["English", "Mandarin Chinese", "Hindi", "Spanish", "French", "Arabic", "Bengali", "Russian", "Portuguese", "Urdu", "German", "Japanese", "Swahili", "Korean"],
-				"religion_belief_system": ["Christianity", "Islam", "Hinduism", "Buddhism", "Sikhism", "Judaism", "Shinto", "Taoism", "Confucianism", "Atheism", "Agnosticism", "Indigenous Beliefs (general concept)"],
-				"mythology_folklore_deity": ["Zeus (Greek)", "Hera (Greek)", "Poseidon (Greek)", "Athena (Greek)", "Apollo (Greek)", "Aphrodite (Greek)", "Thor (Norse)", "Odin (Norse)", "Loki (Norse)", "Ra (Egyptian)", "Isis (Egyptian)", "Osiris (Egyptian)", "Anubis (Egyptian)", "Jupiter (Roman)", "Juno (Roman)", "Neptune (Roman)", "Shiva (Hindu)", "Vishnu (Hindu)", "Brahma (Hindu)", "Dragon (mythical creature)", "Unicorn (mythical creature)", "Phoenix (mythical creature)", "Vampire (folklore)", "Werewolf (folklore)", "Fairy (folklore)", "Santa Claus / Saint Nicholas"],
-				"event_historical_recurring": ["Olympic Games (Summer & Winter)", "FIFA World Cup", "UEFA Champions League", "Super Bowl", "World War I", "World War II", "The Cold War", "The Renaissance", "The Enlightenment", "The Industrial Revolution", "The French Revolution", "The American Revolution", "Moon Landing (Apollo 11)", "Fall of the Berlin Wall", "New Year's Day/Eve", "Christmas", "Easter", "Ramadan & Eid al-Fitr", "Diwali", "Hanukkah", "Chinese New Year (Lunar New Year)", "Thanksgiving (North America)", "Halloween"],
-				"musical_instrument": ["Piano", "Guitar (Acoustic/Electric)", "Violin", "Cello", "Trumpet", "Saxophone", "Flute", "Clarinet", "Drums (Drum Kit)", "Sitar", "Accordion", "Harp", "Bagpipes", "Didgeridoo", "Ukulele"],
-				"musical_genre": ["Classical", "Jazz", "Blues", "Rock", "Pop", "Hip Hop / Rap", "Electronic Dance Music (EDM)", "Country", "Reggae", "Folk", "R&B (Rhythm and Blues)", "Soul", "Metal", "Opera", "Bollywood Music", "K-Pop", "Latin (Salsa, Tango, etc.)"],
-				"literary_work_book_play": ["The Bible", "The Quran", "The Torah", "The Vedas", "The Iliad & The Odyssey (Homer)", "Romeo and Juliet (Shakespeare)", "Hamlet (Shakespeare)", "Don Quixote (Cervantes)", "Pride and Prejudice (Austen)", "1984 (Orwell)", "To Kill a Mockingbird (Lee)", "The Great Gatsby (Fitzgerald)", "War and Peace (Tolstoy)", "The Lord of the Rings (Tolkien)", "Harry Potter series (Rowling)", "The Catcher in the Rye (Salinger)", "Moby Dick (Melville)", "Alice's Adventures in Wonderland (Carroll)", "The Communist Manifesto (Marx & Engels)", "Anne Frank: The Diary of a Young Girl"],
-				"film_movie_iconic": ["The Wizard of Oz (1939)", "Gone with the Wind (1939)", "Citizen Kane (1941)", "Casablanca (1942)", "Singin' in the Rain (1952)", "Psycho (1960)", "Lawrence of Arabia (1962)", "2001: A Space Odyssey (1968)", "The Godfather (1972)", "Star Wars: A New Hope (1977)", "E.T. the Extra-Terrestrial (1982)", "Blade Runner (1982)", "Back to the Future (1985)", "Pulp Fiction (1994)", "Forrest Gump (1994)", "The Shawshank Redemption (1994)", "Titanic (1997)", "The Matrix (1999)", "The Lord of the Rings: The Fellowship of the Ring (2001)", "Spirited Away (2001)", "Parasite (2019)"],
-				"game_video_board_traditional": ["Chess", "Checkers (Draughts)", "Go", "Mahjong", "Poker", "Monopoly", "Scrabble", "Risk", "Clue (Cluedo)", "Playing Cards (standard 52-card deck)", "Dice", "Marbles", "Tag", "Hide-and-Seek", "Soccer/Football (the sport itself)", "Basketball (the sport itself)", "Tetris", "Pac-Man", "Super Mario Bros.", "The Legend of Zelda series", "Minecraft", "Grand Theft Auto series", "Call of Duty series", "Fortnite", "Pokémon (video game series)", "Street Fighter series", "FIFA (video game series)", "League of Legends", "Among Us"],
-				"organization_international_movement": ["United Nations (UN)", "World Health Organization (WHO)", "UNICEF", "UNESCO", "International Monetary Fund (IMF)", "World Bank", "World Trade Organization (WTO)", "European Union (EU)", "NATO (North Atlantic Treaty Organization)", "Red Cross / Red Crescent", "Amnesty International", "Greenpeace", "Doctors Without Borders (MSF)", "Olympic Movement (IOC)", "FIFA"]
+			"concepts": {
+				"emotions": ["joy", "sadness", "fear", "anger", "love", "jealousy", "nostalgia", "schadenfreude", "serenity", "melancholy", "euphoria", "saudade (Portuguese: deep longing)", "hygge (Danish: coziness)", "komorebi (Japanese: sunlight through leaves)"],
+				"virtues": ["honesty", "courage", "humility", "justice", "compassion", "integrity", "temperance", "prudence", "faith", "hope", "patience", "forgiveness", "benevolence", "chivalry"],
+				"vices": ["greed", "lust", "gluttony", "envy", "sloth", "wrath", "pride", "deceit", "narcissism", "bigotry", "corruption", "apathy", "recklessness", "selfishness"],
+				"philosophical_concepts": ["existentialism", "stoicism", "nihilism", "utilitarianism", "determinism", "free will", "the golden mean", "the sublime", "tabula rasa", "yin and yang", "dharma", "karma", "wu wei", "ma'at", "ubuntu"],
+				"scientific_principles": ["gravity", "evolution", "natural selection", "entropy", "relativity", "quantum superposition", "conservation of energy", "Heisenberg Uncertainty Principle", "natural law", "cell theory"],
+				"mathematical_concepts": ["infinity", "pi", "golden ratio", "fractals", "zero", "prime numbers", "set theory", "imaginary numbers", "Fibonacci sequence", "chaos theory"],
+				"psychological_concepts": ["cognitive dissonance", "Maslow's hierarchy of needs", "Oedipus complex", "groupthink", "confirmation bias", "flow state", "mirror neurons", "imposter syndrome", "splitting", "projection"],
+				"social_concepts": ["democracy", "justice", "equality", "capitalism", "racism", "patriarchy", "community", "anarchism", "nationalism", "urbanization", "peer pressure", "class system"],
+				"economic_concepts": ["supply and demand", "inflation", "opportunity cost", "GDP", "monopoly", "market equilibrium", "labor theory of value", "protectionism", "comparative advantage", "financial bubble"],
+				"political_concepts": ["sovereignty", "separation of powers", "civil rights", "federalism", "totalitarianism", "checks and balances", "electoral college", "gerrymandering", "referendum", "junta"],
+				"spiritual_concepts": ["salvation", "enlightenment", "reincarnation", "transcendence", "divine justice", "grace", "sin", "moksha", "nirvana", "taqwa", "wu wei", "ascension", "resurrection"],
+				"abstract_ideas": ["time", "infinity", "beauty", "truth", "freedom", "identity", "destiny", "luck", "justice", "morality", "power", "change", "nothingness", "eternity"]
+			},
+			"knowledge_fields": {
+				"sciences": ["physics", "chemistry", "biology", "astronomy", "geology", "meteorology", "oceanography", "botany", "zoology", "neuroscience"],
+				"arts": ["painting", "sculpture", "dance", "theater", "cinema", "literature", "architecture", "photography", "music composition", "performance art"],
+				"humanities": ["history", "philosophy", "linguistics", "classics", "religious studies", "anthropology", "archaeology", "ethnography", "folklore studies", "comparative literature"],
+				"social_sciences": ["sociology", "psychology", "economics", "political science", "international relations", "law", "media studies", "communication studies", "urban studies", "gender studies"],
+				"applied_sciences": ["engineering", "medicine", "pharmacology", "agriculture", "environmental science", "information technology", "materials science", "food science", "forensic science", "biotechnology"],
+				"formal_sciences": ["mathematics", "statistics", "computer science", "logic", "systems theory", "operations research", "theoretical computer science", "control theory", "game theory", "cryptography"],
+				"professions": ["medicine", "law", "engineering", "education", "journalism", "architecture", "business administration", "nursing", "accounting", "aviation"],
+				"crafts": ["blacksmithing", "weaving", "pottery", "woodworking", "glassblowing", "bookbinding", "leatherworking", "metal engraving", "calligraphy", "soap making"],
+				"sports": ["soccer/football", "basketball", "martial arts", "tennis", "swimming", "boxing", "cycling", "gymnastics", "wrestling", "track and field"],
+				"hobbies": ["gardening", "fishing", "birdwatching", "knitting", "model building", "chess", "rock climbing", "stamp collecting", "amateur radio", "astronomy"],
+				"academic_disciplines": ["biochemistry", "astrophysics", "neuroscience", "artificial intelligence", "linguistics", "quantum mechanics", "epidemiology", "ethnomusicology", "digital humanities", "cognitive science"]
+			},
+			"cultural_elements": {
+				"mythologies": ["Greek Mythology", "Norse Mythology", "Hindu Mythology", "Egyptian Mythology", "Mayan Mythology", "Chinese Mythology", "Japanese Mythology", "Slavic Mythology", "Mesopotamian Mythology"],
+				"religions": ["Christianity", "Islam", "Hinduism", "Buddhism", "Judaism", "Sikhism", "Jainism", "Zoroastrianism", "Shinto", "Taoism", "Atheism"],
+				"traditions": ["Hanami (Cherry Blossom Viewing)", "Day of the Dead (Día de los Muertos)", "Mid-Autumn Festival", "Lunar New Year", "Holi Festival", "Oktoberfest", "Diwali", "Ramadan and Eid al-Fitr", "Thanksgiving", "Burns Night", "Inti Raymi (Inca Sun Festival)", "Songkran (Thai New Year Water Festival)"],
+				"languages": ["English", "Mandarin Chinese", "Spanish", "Arabic", "Hindi", "Portuguese", "Bengali", "Russian", "Japanese", "Punjabi", "Swahili", "Korean", "Turkish", "Persian (Farsi)", "Indonesian", "Vietnamese"],
+				"writing_systems": ["Latin Alphabet", "Cyrillic Script", "Arabic Script", "Chinese Characters (Hanzi)", "Japanese Kana & Kanji", "Devanagari Script", "Hangul (Korean Alphabet)", "Ethiopic Script", "Ge'ez", "Tamil Script", "Mayan Glyphs", "Cuneiform", "Hieroglyphics", "Braille", "Morse Code"],
+				"folklore": ["Anansi Stories (West African)", "Grimm's Fairy Tales", "One Thousand and One Nights", "Native American Oral Traditions", "Japanese Yōkai Lore", "Aboriginal Dreamtime Stories", "Norse Sagas", "Celtic Folktales", "Inuit Legends", "Maori Myths", "Slavic Baba Yaga Stories", "Philippine Aswang Folklore"],
+				"legends": ["King Arthur and the Knights of the Round Table", "The Epic of Sundiata (Mali Empire)", "Popol Vuh (Maya Creation Myth)", "The Tale of Genji (Japan)", "The Ramayana (India)", "Beowulf (Anglo-Saxon Hero)", "The Legend of Mulan", "The Mahabharata (India)", "The Odyssey (Greece)", "The Legend of the Condor Heroes (China)"],
+				"customs": ["Tea Ceremony (Japan)", "Wedding Tea Ceremony (China)", "Wai (Thai Greeting)", "Namaste (Indian Greeting)", "Handshake (Western Greeting)", "Haka Dance (New Zealand)", "Rainbow Welcome (Pacific Cultures)", "Bowing in East Asia", "Elders First Principle (African Societies)", "Gift-Giving Etiquette in Middle Eastern Cultures"],
+				"rituals": ["Funeral Rites in Bali (Melasti & Ngaben)", "Coming of Age Ceremonies (Seijin no Hi, Bar/Bat Mitzvah)", "Wedding Rituals (e.g., Hindu Saptapadi, Jewish Chuppah)", "Shinto Purification Ritual (Misogi)", "Offering Flowers at Shrines", "Prayer Beads Use (Rosary, Japa Mala)", "Initiation Rites (Maasai, Aboriginal, etc.)", "Divination Practices (I Ching, Tarot, Ifá)", "Harvest Festivals with Offerings", "Spirit Possession Rituals (Vodun, Candomblé)"],
+				"symbols": ["Swastika (Ancient & Hindu Symbol)", "Cross (Christianity)", "Star of David (Judaism)", "Om (Hinduism, Buddhism)", "Taijitu (Yin Yang)", "Eye of Horus (Egyptian)", "Ankh (Egyptian Life Symbol)", "Triskele (Celtic Symbol)", "Dreamcatcher (Ojibwe)", "Manji (Japanese Buddhist Symbol)", "All-Seeing Eye (Various Cultures)", "Ashoka Chakra (Buddhism, India)"],
+				"flags": ["Flag of Japan", "Union Jack (UK)", "Stars and Stripes (USA)", "Green Flag of Islam", "Pan-African Flag", "Rainbow Flag (LGBTQ+)", "Taegeukgi (South Korea)", "Maple Leaf (Canada)", "Flag of Brazil", "Algerian National Flag"],
+				"emblems": ["Imperial Seal of Japan (Chrysanthemum)", "Double-Headed Eagle (Byzantine, Russian)", "Lion Capital of Ashoka (India)", "Coat of Arms (European Nations)", "Great Seal of the United States", "Emblem of Australia", "Royal Crest (Thailand)", "National Animal Emblems (e.g., Dragon - Bhutan, Lion - Sri Lanka)", "Totem Poles (Northwest Indigenous Tribes)", "Family Crests (Europe, Asia)"]
+			},
+			"time_and_space": {
+				"time_periods": ["Stone Age", "Bronze Age", "Iron Age", "Classical Antiquity", "Middle Ages", "Renaissance", "Enlightenment", "Industrial Revolution", "Information Age", "Cold War Era", "Space Age", "Digital Age"],
+				"calendars": ["Gregorian Calendar", "Julian Calendar", "Islamic (Hijri) Calendar", "Hebrew Calendar", "Chinese Lunar Calendar", "Maya Long Count Calendar", "Japanese Imperial Calendar", "Ethiopian Calendar", "Persian Solar Hijri Calendar", "Babylonian Calendar"],
+				"seasons": ["spring", "summer", "autumn/fall", "winter", "monsoon season", "dry season", "wet season", "tsuyu (Japanese rainy season)", "four seasons in Korean culture", "six seasons in Aboriginal Australian calendars"],
+				"celestial_bodies": ["Sun", "Moon", "Earth", "Mars", "Saturn", "Venus", "Jupiter", "Pluto", "Sirius", "Alpha Centauri", "Betelgeuse", "Andromeda Galaxy"],
+				"constellations": ["Orion", "Ursa Major", "Leo", "Scorpius", "Cassiopeia", "Taurus", "Gemini", "Lyra", "Draco", "Southern Cross (Crux)"],
+				"dimensions": ["one-dimensional space", "two-dimensional plane", "three-dimensional space", "four-dimensional spacetime", "hyperspace", "parallel universes", "string theory dimensions", "alternate realities", "the void", "subspace"],
+				"units_of_measurement": ["meter", "kilogram", "second", "kelvin", "ampere", "mole", "candela", "radian", "hertz", "newton", "joule", "watt", "astronomical unit (AU)", "light-year", "parsec"],
+				"directions": ["north", "south", "east", "west", "northeast", "southeast", "northwest", "southwest", "zenith", "nadir", "cardinal directions in Polynesian navigation", "eight trigrams in Feng Shui"],
+				"weather_phenomena": ["rain", "snow", "thunderstorm", "tornado", "hurricane", "monsoon", "fog", "drought", "blizzard", "hail", "cyclone", "sandstorm", "aurora borealis", "El Niño", "heatwave"],
+				"geological_eras": ["Precambrian", "Paleozoic", "Mesozoic", "Cenozoic", "Quaternary", "Pliocene", "Miocene", "Jurassic", "Triassic", "Carboniferous"]
+			},
+			"systems_and_structures": {
+				"governments": ["democracy", "monarchy", "communism", "federalism", "theocracy", "oligarchy", "anocracy", "autocracy", "direct democracy", "constitutional monarchy"],
+				"organizations": ["United Nations (UN)", "World Health Organization (WHO)", "International Monetary Fund (IMF)", "Red Cross", "Greenpeace", "Amnesty International", "CIA", "Interpol", "European Union (EU)", "African Union (AU)"],
+				"institutions": ["banks", "universities", "hospitals", "courts", "parliaments", "museums", "libraries", "religious orders", "stock exchanges", "trade unions"],
+				"economic_systems": ["capitalism", "socialism", "communism", "feudalism", "mercantilism", "mixed economy", "planned economy", "barter system", "digital economy", "sharing economy"],
+				"social_structures": ["caste system", "class system", "tribal hierarchy", "clan structure", "feudal hierarchy", "patriarchy", "matriarchy", "meritocracy", "peer networks", "urban vs rural divide"],
+				"classification_systems": ["Linnaean taxonomy", "Dewey Decimal System", "International Classification of Diseases (ICD)", "Myers-Briggs Type Indicator (MBTI)", "Hofstede's Cultural Dimensions", "Maslow's Hierarchy of Needs", "GOST standards", "ISO standards", "Military Ranks", "Academic Degrees"],
+				"networks": ["internet", "railway network", "electricity grid", "supply chain", "social media network", "terrorist networks", "academic collaboration networks", "intelligence alliances (e.g., Five Eyes)", "NGO networks", "global trade routes"],
+				"hierarchies": ["corporate hierarchy", "military rank", "feudal hierarchy", "spiritual hierarchy (e.g., Catholic Church)", "bureaucratic ladder", "family hierarchy", "educational hierarchy", "ecosystem food chain", "religious orders", "royal succession line"],
+				"processes": ["democratization", "industrialization", "urbanization", "globalization", "colonization", "decentralization", "privatization", "digitization", "assimilation", "securitization"],
+				"methods": ["scientific method", "Socratic method", "agile methodology", "SWOT analysis", "root cause analysis", "case study method", "design thinking", "Six Sigma", "lean manufacturing", "conflict resolution techniques"]
+			},
+			"media_and_communication": {
+				"literature_genres": ["epic poetry", "tragedy", "romance", "science fiction", "fantasy", "mystery", "historical fiction", "dystopian fiction", "magical realism", "memoir", "non-fiction", "haiku (Japanese poetry)", "epistolary novel", "detective fiction", "grit lit"],
+				"art_movements": ["Renaissance Art", "Baroque", "Impressionism", "Cubism", "Surrealism", "Abstract Expressionism", "Pop Art", "Ukiyo-e (Japanese woodblock prints)", "Byzantine Art", "Fauvism", "Dadaism", "Constructivism", "Naïve Art", "Street Art", "Minimalism"],
+				"music_genres": ["classical", "jazz", "blues", "rock", "hip hop", "reggae", "electronic", "folk", "country", "heavy metal", "k-pop", "bossa nova", "qawwali", "gamelan", "flamenco"],
+				"film_genres": ["action", "comedy", "drama", "horror", "sci-fi", "western", "documentary", "noir", "musical", "anime", "silent film", "chanchada (Brazilian comedy)", "chanbara (Japanese sword films)", "masala (Indian cinema)"],
+				"communication_methods": ["oral storytelling", "sign language", "written language", "body language", "telegraphy", "radio communication", "television broadcasting", "social media", "emoji communication", "drum language (West Africa)", "whistled language (Canary Islands, Turkey)", "semaphore flags", "Morse code", "braille"],
+				"media_formats": ["papyrus scroll", "clay tablet", "manuscript", "newspaper", "magazine", "book", "radio broadcast", "television", "podcast", "blog", "webcomic", "e-book", "streaming video", "augmented reality", "virtual reality"],
+				"storytelling_forms": ["epic poetry", "oral folklore", "fable", "parable", "myth", "legend", "novel", "short story", "graphic novel", "shadow puppetry", "Noh theater (Japan)", "Kabuki (Japan)", "epic theatre", "stand-up comedy", "digital storytelling"],
+				"performance_types": ["theater", "opera", "ballet", "modern dance", "stand-up comedy", "improvisation", "circus", "acrobatics", "sumo wrestling (as cultural performance)", "wayang kulit (Indonesian shadow play)", "flamenco dance", "hip-hop dance", "Noh (Japan)", "Bharatanatyam (India)", "Peking Opera (China)"],
+				"visual_arts": ["painting", "sculpture", "printmaking", "photography", "calligraphy", "illustration", "mosaic", "tapestry", "glass art", "ink wash painting", "woodcutting", "screen printing", "digital illustration", "murals", "tattoo art"],
+				"digital_media": ["video games", "social media platforms", "streaming services", "augmented reality (AR)", "virtual reality (VR)", "mobile apps", "interactive websites", "e-books", "podcasts", "live streaming", "deepfakes", "AI-generated content", "metaverse environments", "digital art NFTs", "cybernetic performance art"]
 			}
 		}
 	}
